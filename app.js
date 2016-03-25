@@ -1,12 +1,12 @@
 var express = require('express');
+var mongo = require('mongoose');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
-var routes = require('./routes/index');
-var users = require('./routes/users');
+var api = require('./server/routes/api');
+//var get = require('./server/routes/get');
 
 var app = express();
 
@@ -22,11 +22,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
-app.get('/a', function (res, req) {
-  req.send('hello');
+app.use('/', api);
+// app.get('*', get.index); // доделать
+
+mongo.connect('mongodb://localhost/kitty');
+
+var db = mongo.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  console.log('connect db');
 });
-app.use('/users', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
