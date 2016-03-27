@@ -6,7 +6,6 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var api = require('./server/routes/api');
-//var get = require('./server/routes/get');
 
 var app = express();
 
@@ -23,9 +22,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', api);
-// app.get('*', get.index); // доделать
 
-mongo.connect('mongodb://localhost/kitty');
+mongo.connect('mongodb://localhost/print-data-db');
 
 var db = mongo.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -44,15 +42,15 @@ app.use(function(req, res, next) {
 
 // development error handler
 // will print stacktrace
-if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
-    });
-  });
-}
+// if (app.get('env') === 'development') {
+//   app.use(function(err, req, res, next) {
+//     res.status(err.status || 500);
+//     res.render('error', {
+//       message: err.message,
+//       error: err
+//     });
+//   });
+// }
 
 // production error handler
 // no stacktraces leaked to user

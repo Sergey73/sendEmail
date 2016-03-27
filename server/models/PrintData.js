@@ -1,7 +1,6 @@
 'use strict';
 var PrintDataModel = require('../schemas/print-datas');
 var mongo = require('mongoose');
-// var mongo = require('../../libs/mongoose');
 
 class PrintData  {
 	constructor(model) {
@@ -9,37 +8,23 @@ class PrintData  {
 	}
 
 	save() {
-	return Promise.resolve()
-	  .then(() => {
-	    return new Promise((resolve, reject) => {
-	      this._model.save((err) => (err ? reject(err) : resolve(this)));
-	    });
-	  })
+	   return this._model.save();
 	}
 
   	static findAll() {
-  		debugger
-	    return new Promise((resolve, reject) => {
-	      var find = this.model.find({});
-	      find.exec((err, docs) => {
-	        if (err) {
-	          return reject(err);
-	        }
+	    return this.model.find({}).exec();
+  	}
 
-	        var Self = this;
-	        var objects = [];
-	        for (var i = 0; i < docs.length; i++) {
-	          if (this.getClass) { Self = this.getClass(docs[i]); }
-	          objects.push(new Self(docs[i]));
-	        }
+    static findById(id) {
+	    return this.model.findById(id).exec();
+  	}
 
-	        objects.toJSON = () => {
-	          return objects;
-	        };
+    static removeById(id) {
+	    return this.model.remove({"_id": id}).exec();
+  	}
 
-	        resolve(objects);
-	      });
-	    });
+    static updateById(id, newValue) {
+	    return this.model.update({"_id": id}, newValue).exec();
   	}
 
 	static get model() {

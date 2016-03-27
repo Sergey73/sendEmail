@@ -5,9 +5,8 @@ var printData = require('../controllers/print-data');
 router.get('/', pathNotSpecified);
 router.use('/printdata', printData);
 
-module.exports = router;
-
-
 function pathNotSpecified(req, res) {
   res.status(422).send({error: 'path not specified'});
 }
+
+module.exports = router;

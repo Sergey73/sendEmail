@@ -5,11 +5,11 @@ var ObjectId = Schema.Types.ObjectId;
 
 var PrintDataSchema = new Schema({
   id: {type: ObjectId},
-  name: {type: String, trim: true, required: true}/*,
+  name: {type: String, trim: true, required: true},
   status: {type: String, trim: true, required: true},
   priority: {type: Number, required: true},
   comment: {type: String},
-  data: {}*/
+  created: {type: Date, default: Date.now}
 });
 
 module.exports = mongo.model('PrintData', PrintDataSchema);
